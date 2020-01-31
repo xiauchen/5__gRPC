@@ -11,3 +11,7 @@ https://www.itdaan.com/tw/1fb8972e89025ba83c07f8acc29fe9e7
 
 [load balancer-java](https://juejin.im/post/5cd6e69ff265da03a85addb6)  
 [load balancer-go](https://colobu.com/2017/03/25/grpc-naming-and-load-balance/ "gRPC")  
+
+  [google]: http://google.com/        "Google"  
+  [yahoo]:  http://search.yahoo.com/  "Yahoo Search"  
+  [msn]:    http://search.msn.com/    "MSN Search"  
