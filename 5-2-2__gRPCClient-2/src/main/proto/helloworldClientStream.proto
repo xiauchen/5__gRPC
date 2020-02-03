@@ -6,7 +6,7 @@
 //option java_outer_classname = "HelloWorldProto";
 syntax = "proto3";
 option java_multiple_files = false;
-option java_package = "com.example.__gRPCServer";
+option java_package = "com.example.__gRPCClient";
 option java_outer_classname = "HelloWorldClientStreamProto";
 option objc_class_prefix = "HLW";
 package helloworldclientstream;

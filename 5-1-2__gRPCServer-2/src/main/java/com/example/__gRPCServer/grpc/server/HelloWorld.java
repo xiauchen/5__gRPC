@@ -1,8 +1,8 @@
 package com.example.__gRPCServer.grpc.server;
 
-import com.example.__gRPCServer.grpc.GreeterGrpc;
-import com.example.__gRPCServer.grpc.HelloWorldProto.HelloReply;
-import com.example.__gRPCServer.grpc.HelloWorldProto.HelloRequest;
+import com.example.__gRPCServer.Greeter1Grpc;
+import com.example.__gRPCServer.HelloWorldProto;
+import io.grpc.BindableService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
@@ -24,7 +24,7 @@ public class HelloWorld {
     private void start() throws IOException{
         //建立Service
         server = ServerBuilder.forPort(port)
-                .addService(new GreeterImpl())
+                .addService((BindableService) new GreeterImpl())
                 .build()
                 .start();
         logger.info("Server started, listening on "+ port);
@@ -64,11 +64,11 @@ public class HelloWorld {
 
 
     // 实现 定义一个实现服务接口的类
-    private class GreeterImpl extends GreeterGrpc.GreeterImplBase {
+    private class GreeterImpl extends Greeter1Grpc.Greeter1ImplBase {
         //接受參數，然後回傳
         @Override
-        public void sayHello(HelloRequest req,StreamObserver<HelloReply> responseObserver){
-            HelloReply reply = HelloReply.newBuilder().setMessage(("Hello "+req.getName())).build();
+        public void sayHello(HelloWorldProto.HelloRequest req, StreamObserver<HelloWorldProto.HelloReply> responseObserver){
+            HelloWorldProto.HelloReply reply = HelloWorldProto.HelloReply.newBuilder().setMessage(("Hello "+req.getName())).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
             System.out.println("Message from gRPC-Client:" + req.getName());

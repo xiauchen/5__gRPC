@@ -2,9 +2,9 @@ package com.example.__gRPCServer.grpc.server;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import com.example.__gRPCServer.grpc.greeter.Greeter1Grpc;
-import com.example.__gRPCServer.grpc.java.HelloWorldProto.HelloReply;
-import com.example.__gRPCServer.grpc.java.HelloWorldProto.HelloRequest;
+import com.example.__gRPCServer.Greeter1Grpc;
+import com.example.__gRPCServer.HelloWorldProto.HelloReply;
+import com.example.__gRPCServer.HelloWorldProto.HelloRequest;
 import io.grpc.stub.StreamObserver;
 
 

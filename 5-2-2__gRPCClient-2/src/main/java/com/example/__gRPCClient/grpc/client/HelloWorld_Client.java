@@ -13,12 +13,12 @@ import java.util.logging.Logger;
 /**
  * Created by wly on 18/8/15.
  */
-public class HelloWorld_Client_1 {
+public class HelloWorld_Client {
     private final ManagedChannel channel;
     private final Greeter1Grpc.Greeter1BlockingStub blockingStub;
-    private static final Logger logger = Logger.getLogger(HelloWorld_Client_1.class.getName());
+    private static final Logger logger = Logger.getLogger(HelloWorld_Client.class.getName());
 
-    public HelloWorld_Client_1(String host,int port){
+    public HelloWorld_Client(String host, int port){
         channel = ManagedChannelBuilder.forAddress(host,port)
                 .usePlaintext(true)
                 .build();
@@ -45,7 +45,7 @@ public class HelloWorld_Client_1 {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        HelloWorld_Client_1 client = new HelloWorld_Client_1("127.0.0.1",50051);
+        HelloWorld_Client client = new HelloWorld_Client("127.0.0.1",50051);
         try{
             String user = "world";
             if (args.length > 0){
