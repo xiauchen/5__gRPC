@@ -14,9 +14,10 @@ public class Application {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		SpringApplication.run(Application.class, args);
-		final HelloWorldClientAndServerStream_Server_4 server = new HelloWorldClientAndServerStream_Server_4();
-		server.start();
-		server.blockUntilShutdown();
+//		final HelloWorldClientAndServerStream_Server_4 server = new HelloWorldClientAndServerStream_Server_4();
+//		server.start();
+//		server.blockUntilShutdown();
+
 		//____________________________________________________________//
 //		System.out.println("===== 构建一个GPS模型开始 =====");
 //		GpsDataProto.gps_data.Builder gps_builder = GpsDataProto.gps_data.newBuilder();

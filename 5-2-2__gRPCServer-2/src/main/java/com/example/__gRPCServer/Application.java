@@ -1,14 +1,27 @@
 package com.example.__gRPCServer;
 
+import com.example.__gRPCServer.grpc.server.HelloWorldClientAndServerStream_Server_4;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.io.IOException;
 
 @SpringBootApplication
+@Controller
 public class Application {
-
-	public static void main(String[] args) {
+	private static HelloWorldClientAndServerStream_Server_4 server1;
+	public static void main(String[] args) throws IOException, InterruptedException {
 		SpringApplication.run(Application.class, args);
+		server1 = new HelloWorldClientAndServerStream_Server_4();
+		final HelloWorldClientAndServerStream_Server_4 server2 = new HelloWorldClientAndServerStream_Server_4();
+		server1.start(49993);
+		server2.start(49994);
+		server1.blockUntilShutdown();
+		server2.blockUntilShutdown();
+
 		//____________________________________________________________//
 //		System.out.println("===== 构建一个GPS模型开始 =====");
 //		GpsDataProto.gps_data.Builder gps_builder = GpsDataProto.gps_data.newBuilder();
@@ -40,6 +53,12 @@ public class Application {
 //		}
 //		System.out.print(gd.toString());
 //		System.out.println("===== 使用gps 反序列化生成对象结束 =====");
+	}
+
+	@RequestMapping("/shutdownA")
+	public String shutdownA() throws InterruptedException {
+		server1.stop();
+		return "shutdownA";
 	}
 
 }

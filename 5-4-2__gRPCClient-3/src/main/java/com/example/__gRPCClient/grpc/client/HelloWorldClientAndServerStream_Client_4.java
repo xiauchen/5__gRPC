@@ -24,11 +24,10 @@ public class HelloWorldClientAndServerStream_Client_4 {
     private static final Logger logger = Logger.getLogger(HelloWorldClientAndServerStream_Client_4.class.getName());
 
     public HelloWorldClientAndServerStream_Client_4(String host, int port){
-        String consulAddr = "consul://" + "127.0.0.1:8500";
-        List<String> hostPorts = new ArrayList<>();
-        hostPorts.add("127.0.0.1:8500");
-
-        int pauseInSeconds = 5;
+//        String consulAddr = "consul://" + "127.0.0.1:8500";
+//        List<String> hostPorts = new ArrayList<>();
+//        hostPorts.add("127.0.0.1:8500");
+//        int pauseInSeconds = 5;
 
         channel = ManagedChannelBuilder.forAddress(host,port)
                 .usePlaintext(true)

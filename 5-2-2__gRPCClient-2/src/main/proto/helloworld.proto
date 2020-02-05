@@ -6,7 +6,7 @@
 //option java_outer_classname = "HelloWorldProto";
 syntax = "proto3";
 option java_multiple_files = false;
-option java_package = "com.example.__gRPCClient";
+option java_package = "com.example.helloworld";
 option java_outer_classname = "HelloWorldProto";
 option objc_class_prefix = "HLW";
 package helloworld;
@@ -19,7 +19,13 @@ message HelloReply{
     string message  = 1;
 }
 //定义接口
-service Greeter1{
-    rpc sayHello(HelloRequest) returns (HelloReply){}
+service Greeter{
     //一个简单的rpc
+    rpc helloWorld(HelloRequest) returns (HelloReply){}
+    //一个服务器端流式rpc
+    rpc helloWorldServerStream(HelloRequest) returns (stream HelloReply){}
+    //一个客户端流式rpc
+    rpc helloWorldClientStream(stream HelloRequest) returns (HelloReply){}
+    //一个客户端和服务器端双向流式rpc
+    rpc helloWorldClientAndServerStream(stream HelloRequest) returns (stream HelloReply){}
 }

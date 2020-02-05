@@ -36,13 +36,13 @@ public class Application {
 		model.addAttribute("greeting",greetingClient.greeting());
 		return "greeting-view";
 	}
-	@RequestMapping("getOrder")
-	public String getOrder(){
+	@RequestMapping("/getOrder")
+	public String getOrder(Model model){
 
 		List<ServiceInstance> instances = discoveryClient.getInstances("eureka-client");
-		String a = null;
+//		String a = null;
 		for(ServiceInstance s:instances){
-			a = s.getUri().toString();
+			model.addAttribute("asd", s.getUri().toString());
 		}
 
 		//一种直接写访问路径,另一种是写服务名称
@@ -50,6 +50,6 @@ public class Application {
 		//String forObject = restTemplate.getForObject("http://consul-member/getMember", String.class);
 		//String forObject = restTemplate.getForObject("http://192.168.244.1:8000/getMember", String.class); 一般不直接写地址
 //		String forObject = restTemplate.getForObject("http://127.0.0.1:8300/eureka-client", String.class);
-		return "asdsa";
+		return "asd";
 	}
 }
