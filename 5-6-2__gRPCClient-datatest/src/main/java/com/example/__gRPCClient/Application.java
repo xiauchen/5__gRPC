@@ -8,14 +8,16 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URISyntaxException;
 import java.util.List;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@RequestMapping
+@RestController
 public class Application {
 	@Autowired
 	private DiscoveryClient discoveryClient;
@@ -32,16 +34,13 @@ public class Application {
 			String hostName = serviceInstance.getHost();
 			int gRpcPort = serviceInstance.getPort() + 1;
 			int gRPCA = Integer.valueOf(serviceInstance.getMetadata().get("grpc-portA"));
-			System.out.println(gRPCA);
+			System.out.println(hostName+gRPCA);
 			HelloWorldClientAndServerStream_Client_4 client = new HelloWorldClientAndServerStream_Client_4(hostName, gRPCA);
-			long time1 = System.currentTimeMillis();
 			try {
 				String user = "world";
 				client.greet(user);
 			} finally {
-				long time2 = System.currentTimeMillis();
-				System.out.println((time2-time1)/1000.0 + "秒");
-				client.shutdown();
+//				client.shutdown();
 			}
 		}
 		return "20000";
@@ -62,9 +61,30 @@ public class Application {
 				String user = "world";
 				client.greet(user);
 			} finally {
+				client.shutdown();
 				long time2 = System.currentTimeMillis();
 				System.out.println((time2-time1)/1000.0 + "秒");
+			}
+		}
+		return "20000";
+	}
+	@RequestMapping("/get")
+	public String get() throws InterruptedException {
+
+		List<ServiceInstance> instances = discoveryClient.getInstances("grpc-server");
+		for(ServiceInstance serviceInstance : instances){
+			String hostName = serviceInstance.getHost();
+			int gRPCA = Integer.valueOf(serviceInstance.getMetadata().get("grpc-portA"));
+			System.out.println(hostName+gRPCA);
+			HelloWorldClientAndServerStream_Client_4 client = new HelloWorldClientAndServerStream_Client_4(hostName, gRPCA);
+			long time1 = System.currentTimeMillis();
+			try {
+				String user = "world";
+				client.getGreet(user);
+			} finally {
 				client.shutdown();
+				long time2 = System.currentTimeMillis();
+				System.out.println((time2-time1)/1000.0 + "秒");
 			}
 		}
 		return "20000";

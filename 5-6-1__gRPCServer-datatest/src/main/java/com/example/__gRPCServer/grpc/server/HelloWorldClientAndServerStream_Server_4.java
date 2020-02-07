@@ -1,10 +1,9 @@
 package com.example.__gRPCServer.grpc.server;
 
 import com.example.helloworld.GreeterGrpc;
-import com.example.helloworld.HealthGrpc;
-import com.example.helloworld.HelloWorldProto.HealthCheckResponse;
-import com.example.helloworld.HelloWorldProto.HealthCheckRequest;
-import com.example.helloworld.HelloWorldProto;
+import grpc.health.v1.HealthGrpc;
+import grpc.health.v1.HealthOuterClass.HealthCheckRequest;
+import grpc.health.v1.HealthOuterClass.HealthCheckResponse;
 import com.example.helloworld.HelloWorldProto.HelloReply;
 import com.example.helloworld.HelloWorldProto.HelloRequest;
 import com.orbitz.consul.AgentClient;
@@ -48,18 +47,19 @@ public class HelloWorldClientAndServerStream_Server_4 {
         String serviceId = String.valueOf(lPort);
 //        Registration.RegCheck ttlCheck = ImmutableRegCheck.builder().ttl("60s").deregisterCriticalServiceAfter("1m").build();
 //        ImmutableRegCheck check = ImmutableRegCheck.builder().tcp("http://127.0.0.1:49992/actuator/health").interval("5s").build();
-//        ImmutableRegCheck check = ImmutableRegCheck.builder().grpc("[127.0.0.1]:"+lPort+"/check").interval("5s").build();
+        ImmutableRegCheck check = ImmutableRegCheck.builder().grpc("host.docker.internal:"+lPort).interval("5s").build();
         Registration service = ImmutableRegistration.builder()
                 .id(serviceId)
                 .name("gRPCA"+lPort)
                 .port(lPort)
-//                .addChecks(check)
-//                .check(Registration.RegCheck.ttl(2L)) // registers with a TTL of 3 seconds
-                .check(ImmutableRegCheck.builder()
-                        .grpc("127.0.0.1:"+lPort)
-                        .interval("1s").deregisterCriticalServiceAfter("1m")
-                        .build())
-                .tags(Collections.singletonList("tag2"))
+                .addChecks(check)
+//                .check(Registration.RegCheck.ttl(60L)) // registers with a TTL of 3 seconds
+//                .check(ImmutableRegCheck.builder()
+//                        .grpc("127.0.0.1:"+lPort)
+//                        .interval("5s")
+////                        .deregisterCriticalServiceAfter("1m")
+//                        .build())
+                .tags(Collections.singletonList("tag3"))
                 .meta(Collections.singletonMap("version", "1.0"))
                 .build();
         agentClient.register(service);
@@ -107,13 +107,14 @@ public class HelloWorldClientAndServerStream_Server_4 {
         //接受參數，然後回傳
         @Override
         public StreamObserver<HelloRequest> helloWorldClientAndServerStream(StreamObserver<HelloReply> responseObserver){
+            System.out.println("helloWorldClientAndServerStream");
             return new StreamObserver<HelloRequest>(){
                 private HelloReply.Builder builder=HelloReply.newBuilder();
                 @Override
                 public void onNext(HelloRequest helloRequest) {
                     responseObserver.onNext(HelloReply.newBuilder().setMessage(port+":hello 1 , "+helloRequest.getName()).build());
-                    responseObserver.onNext(HelloReply.newBuilder().setMessage(port+":hello 2 , "+helloRequest.getName()).build());
-                    responseObserver.onNext(HelloReply.newBuilder().setMessage(port+":hello 3 , "+helloRequest.getName()).build());
+//                    responseObserver.onNext(HelloReply.newBuilder().setMessage(port+":hello 2 , "+helloRequest.getName()).build());
+//                    responseObserver.onNext(HelloReply.newBuilder().setMessage(port+":hello 3 , "+helloRequest.getName()).build());
                 }
 
 
@@ -127,13 +128,29 @@ public class HelloWorldClientAndServerStream_Server_4 {
                 }
             };
         }
+
+        @Override
+        public void helloWorld(HelloRequest req,StreamObserver<HelloReply> responseObserver){
+            HelloReply reply = HelloReply.newBuilder().setMessage(("Hello "+req.getName())).build();
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+//            System.out.println("Message from gRPC-Client:" + req.getName());
+        }
     }
 
     private class HealthImpl extends HealthGrpc.HealthImplBase {
 
         @Override
         public void check(HealthCheckRequest healthCheckRequest,StreamObserver<HealthCheckResponse> responseObserver){
-            HealthCheckResponse healthCheckResponse = new HealthCheckResponse();
+            HealthCheckResponse healthCheckResponse = HealthCheckResponse.newBuilder().setStatusValue(1).build();
+            responseObserver.onNext(healthCheckResponse);
+            responseObserver.onCompleted();
+        }
+
+        @Override
+        public void watch(HealthCheckRequest healthCheckRequest,StreamObserver<HealthCheckResponse> responseObserver){
+            System.out.println("watch");
+            HealthCheckResponse healthCheckResponse = HealthCheckResponse.newBuilder().setStatusValue(1).build();
             responseObserver.onNext(healthCheckResponse);
             responseObserver.onCompleted();
         }

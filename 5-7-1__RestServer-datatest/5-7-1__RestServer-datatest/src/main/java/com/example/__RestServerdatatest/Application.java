@@ -19,10 +19,11 @@ public class Application {
 	}
 
 	@GetMapping(value = "/get")
-	public String all(@RequestParam String world) throws JSONException {
+	public String all(@RequestParam String world) throws JSONException, InterruptedException {
 		JSONObject data = new JSONObject();
 		data.put("1","Hello");
 		data.put("2","World");
+//		System.out.println("1");
 		return data.toString();
 	}
 

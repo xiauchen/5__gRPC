@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @RestController
@@ -28,6 +29,17 @@ public class Application {
 		model.addAttribute("greeting",getGreeting.greeting());
 		model.addAttribute("greeting",getGreeting.greeting());
 		model.addAttribute("greeting",getGreeting.greeting());
+		long time2 = System.currentTimeMillis();
+		System.out.println((time2-time1)/1000.0 + "秒");
+		return "greeting-view";
+	}
+
+	@RequestMapping("/get")
+	public String get(Model model) {
+		long time1 = System.currentTimeMillis();
+		RestTemplate restTemplate = new RestTemplate();
+		for(int i=0;i<10000;i++)
+			model.addAttribute("greeting",restTemplate.getForObject("http://127.0.0.1:49995/get?world=world",String.class,"1"));
 		long time2 = System.currentTimeMillis();
 		System.out.println((time2-time1)/1000.0 + "秒");
 		return "greeting-view";
