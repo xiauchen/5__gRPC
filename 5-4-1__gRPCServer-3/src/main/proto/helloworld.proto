@@ -20,6 +20,8 @@ message HelloReply{
 }
 //定义接口
 service Greeter{
+    //跟google node js 對接
+    rpc sayHello(HelloRequest) returns (HelloReply){}
     //一个简单的rpc
     rpc helloWorld(HelloRequest) returns (HelloReply){}
     //一个服务器端流式rpc

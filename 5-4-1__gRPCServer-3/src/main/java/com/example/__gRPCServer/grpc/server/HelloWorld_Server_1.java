@@ -69,6 +69,7 @@ public class HelloWorld_Server_1 {
         //接受參數，然後回傳
         @Override
         public void helloWorld(HelloRequest req,StreamObserver<HelloReply> responseObserver){
+            System.out.println("conneting");
             HelloReply reply = HelloReply.newBuilder().setMessage(("Hello "+req.getName())).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
