@@ -15,9 +15,7 @@
  * limitations under the License.
  *
  */
-var PROTO_PATH = __dirname + './helloworld.proto';
-
-var PassThrough = require('stream');
+var PROTO_PATH = __dirname + '/helloworld.proto';
 var async = require('async');
 var grpc = require('grpc');
 var _ = require('lodash');
@@ -31,11 +29,10 @@ var packageDefinition = protoLoader.loadSync(
      oneofs: true
     });
     //routeguide 要改
-var routeguide = grpc.loadPackageDefinition(packageDefinition).routeguide;
-var client = new routeguide.RouteGuide('localhost:50051',
+var helloworld = grpc.loadPackageDefinition(packageDefinition).helloworld;
+var client = new helloworld.Greeter('localhost:50054',
                                        grpc.credentials.createInsecure());
-
-async function runRouteChat(callback) {
+function runRouteChat(callback) {
 	// var client = new services.GreeterClient('localhost:50054',
   //                                         grpc.credentials.createInsecure());
   // var request = new messages.HelloRequest();
@@ -53,25 +50,25 @@ async function runRouteChat(callback) {
   // });
  
   //////////////////////////////////////////////////////////////////
-  var call = client.routeChat();
+  var call = client.helloWorldClientAndServerStream();
+  //note 回來的值
   call.on('data', function(note) {
     console.log('Got message "' + note.message + '" at ');
   });
-
   call.on('end', callback);
-
   var notes = [{
-    message: 'First message'
+    name: 'First message'
   }, {
-    message: 'Second message'
+    name: 'Second message'
   }, {
-    message: 'Third message'
+    name: 'Third message'
   }, {
-    message: 'Fourth message'
+    name: 'Fourth message'
   }];
+  //notes 丟出去的值
   for (var i = 0; i < notes.length; i++) {
     var note = notes[i];
-    console.log('Sending message "' + note.message + '" at ' );
+    console.log('Sending message "' + note.name + '" at ' );
     call.write(note);
   }
   call.end();
