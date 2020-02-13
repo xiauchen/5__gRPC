@@ -79,12 +79,9 @@ public class HelloWorldClientAndServerStream_Server_4 {
                     responseObserver.onNext(HelloReply.newBuilder().setMessage("hello 2 , "+helloRequest.getName()).build());
                     responseObserver.onNext(HelloReply.newBuilder().setMessage("hello 3 , "+helloRequest.getName()).build());
                 }
-
-
                 @Override
                 public void onError(Throwable t) {
                 }
-
                 @Override
                 public void onCompleted() {
                     responseObserver.onCompleted();

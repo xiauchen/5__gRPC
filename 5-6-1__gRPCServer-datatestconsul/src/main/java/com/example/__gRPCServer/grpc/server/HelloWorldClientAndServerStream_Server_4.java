@@ -66,7 +66,6 @@ public class HelloWorldClientAndServerStream_Server_4 {
         // Check in with Consul (serviceId required only).
         // Client will prepend "service:" for service level checks.
         // Note that you need to continually check in before the TTL expires, otherwise your service's state will be marked as "critical".
-        agentClient.pass(serviceId);
         //ShutdownHook if JVM Shutting
         Runtime.getRuntime().addShutdownHook(new Thread(){
             @Override
@@ -95,7 +94,7 @@ public class HelloWorldClientAndServerStream_Server_4 {
     public  static  void main(String[] args) throws IOException, InterruptedException, NotRegisteredException {
 
         final HelloWorldClientAndServerStream_Server_4 server = new HelloWorldClientAndServerStream_Server_4();
-        server.start(49993);
+        server.start(49994);
         server.blockUntilShutdown();
     }
 

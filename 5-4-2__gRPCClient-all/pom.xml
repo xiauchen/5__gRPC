@@ -99,8 +99,8 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!--用于根据.proto 文件生成 protobuf 文件-->
 		</plugins>
-		<!--用于根据.proto 文件生成 protobuf 文件-->
 		<extensions>
 			<extension>
 				<groupId>kr.motd.maven</groupId>

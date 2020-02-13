@@ -17,11 +17,8 @@ import java.util.logging.Logger;
 
 public class HelloWorld_Server_1 {
     private static final Logger logger = Logger.getLogger(HelloWorld_Server_1.class.getName());
-
-
     private int port = 50051;
     private Server server;
-
     private void start() throws IOException{
         //建立Service
         server = ServerBuilder.forPort(port)
@@ -41,13 +38,11 @@ public class HelloWorld_Server_1 {
             }
         });
     }
-
     private void stop(){
         if (server != null){
             server.shutdown();
         }
     }
-
     // block 一直到退出程序
     private void blockUntilShutdown() throws InterruptedException {
         if (server != null){
