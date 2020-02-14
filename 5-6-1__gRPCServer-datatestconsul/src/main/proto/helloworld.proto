@@ -26,6 +26,7 @@ package helloworld;
 //接口请求入参
 message HelloRequest{
     string name  = 1;
+
 }
 //接口返回出参
 message HelloReply{

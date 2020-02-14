@@ -43,8 +43,7 @@ function runRouteChat(callback) {
   //   user = 'world';
   // }
   // request.setName(user);
-  // var i;
-  // for (i = 0; i < 10; i++) {
+  // for (var i = 0; i < 10; i++) {
   // client.helloWorld(request, function(err, response) {
   //   console.log('Greeting:', response.getMessage());
   // });

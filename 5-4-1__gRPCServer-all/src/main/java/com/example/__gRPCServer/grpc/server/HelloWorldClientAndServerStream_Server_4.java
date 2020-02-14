@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -78,6 +79,7 @@ public class HelloWorldClientAndServerStream_Server_4 {
                     responseObserver.onNext(HelloReply.newBuilder().setMessage("hello 1 , "+helloRequest.getName()).build());
                     responseObserver.onNext(HelloReply.newBuilder().setMessage("hello 2 , "+helloRequest.getName()).build());
                     responseObserver.onNext(HelloReply.newBuilder().setMessage("hello 3 , "+helloRequest.getName()).build());
+                    logger.log(Level.WARNING, "bidirectional stream--"+helloRequest.getName());
                 }
                 @Override
                 public void onError(Throwable t) {

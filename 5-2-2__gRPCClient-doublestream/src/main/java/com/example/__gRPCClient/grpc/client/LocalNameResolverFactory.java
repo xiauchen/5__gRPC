@@ -17,17 +17,14 @@ public class LocalNameResolverFactory {
     public static class LocalNameResolver extends NameResolver {
         private String hostName;
         private List<Integer> listHostPorts;
-
         public LocalNameResolver(String hostName, List<Integer> listHostPorts){
             this.hostName = hostName;
             this.listHostPorts = listHostPorts;
         }
-
         @Override
         public String getServiceAuthority() {
             return "none";
         }
-
         // 配置可用服务，RPC在调用的时候，轮询选择这里配置的可用的服务地址列表
         @Override
         public void start(Listener listener) {
@@ -49,32 +46,27 @@ public class LocalNameResolverFactory {
     public static class LocalNameResolverProvider extends NameResolverProvider {
         private String hostName;
         private List<Integer> listHostPorts;
-
         public LocalNameResolverProvider(String hostName, List<Integer> listHostPorts)
         {
             this.hostName = hostName;
             this.listHostPorts = listHostPorts;
         }
-
         // 服务是否可用
         @Override
         protected boolean isAvailable() {
             return true;
         }
-
         // 优先级默认5
         @Override
         protected int priority() {
             return 5;
         }
-
         // 服务发现类
         @Nullable
         @Override
         public NameResolver newNameResolver(URI targetUri, Args params) {
             return new LocalNameResolver(hostName,listHostPorts);
         }
-
         // 服务协议
         @Override
         public String getDefaultScheme() {
