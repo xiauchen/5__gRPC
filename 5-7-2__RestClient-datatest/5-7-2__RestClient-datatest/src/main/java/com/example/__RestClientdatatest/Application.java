@@ -38,7 +38,7 @@ public class Application {
 	public String get(Model model) {
 		long time1 = System.currentTimeMillis();
 		RestTemplate restTemplate = new RestTemplate();
-		for(int i=0;i<10000;i++)
+		for(int i=0;i<100000;i++)
 			model.addAttribute("greeting",restTemplate.getForObject("http://127.0.0.1:49995/get?world=world",String.class,"1"));
 		long time2 = System.currentTimeMillis();
 		System.out.println((time2-time1)/1000.0 + "秒");

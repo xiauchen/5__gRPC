@@ -1,6 +1,7 @@
 package com.example.__gRPCServer;
 
 import com.example.__gRPCServer.grpc.server.HelloWorldClientAndServerStream_Server_4;
+import com.example.__gRPCServer.grpc.server.SayHello_Server_0;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +15,19 @@ public class Application {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		SpringApplication.run(Application.class, args);
+		final SayHello_Server_0 server = new SayHello_Server_0();
+		server.start(50051);
+
+
+		final SayHello_Server_0 server1 = new SayHello_Server_0();
+		server1.start(50052);
+
+
+		final SayHello_Server_0 server2 = new SayHello_Server_0();
+		server2.start(50053);
+		server.blockUntilShutdown();
+		server1.blockUntilShutdown();
+		server2.blockUntilShutdown();
 //		final HelloWorldClientAndServerStream_Server_4 server = new HelloWorldClientAndServerStream_Server_4();
 //		server.start();
 //		server.blockUntilShutdown();

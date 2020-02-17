@@ -7,6 +7,7 @@ import com.example.__gRPCServer.HelloProto.HelloRequest;
 import com.example.__gRPCServer.HelloProto.HelloReply;
 
 //@GRpcService(interceptors = { LogInterceptor.class })
+//@GrpcClient("gRPC server name")
 @GrpcService
 public class GreeterService extends GreeterGrpc.GreeterImplBase {
     @Override

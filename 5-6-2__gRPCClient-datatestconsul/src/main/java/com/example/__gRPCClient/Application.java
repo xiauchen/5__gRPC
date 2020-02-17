@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,8 +51,7 @@ public class Application {
 			int gRpcPort = serviceInstance.getPort() + 1;
 			int gRPCA = Integer.valueOf(serviceInstance.getMetadata().get("grpc-portA"));
 			int gRPCB = Integer.valueOf(serviceInstance.getMetadata().get("grpc-portB"));
-			System.out.println(gRPCA);
-			System.out.println(gRPCB);
+			System.out.println("ServiceListPort="+gRPCA+gRPCB);
 			HelloWorldClientAndServerStream_Client_4 client = new HelloWorldClientAndServerStream_Client_4(hostName, gRPCA,gRPCB,1);
 			long time1 = System.currentTimeMillis();
 			try {

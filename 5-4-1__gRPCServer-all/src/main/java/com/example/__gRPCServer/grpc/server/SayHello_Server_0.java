@@ -21,13 +21,13 @@ public class SayHello_Server_0 {
     private int port = 50051;
     private Server server;
 
-    private void start() throws IOException{
+    public void start(int portABC) throws IOException{
         //建立Service
-        server = ServerBuilder.forPort(port)
+        server = ServerBuilder.forPort(portABC)
                 .addService(new GreeterImpl())
                 .build()
                 .start();
-        logger.info("Server started, listening on "+ port);
+        logger.info("Server started, listening on "+ portABC);
         //ShutdownHook if JVM Shutting
         Runtime.getRuntime().addShutdownHook(new Thread(){
 
@@ -48,7 +48,7 @@ public class SayHello_Server_0 {
     }
 
     // block 一直到退出程序
-    private void blockUntilShutdown() throws InterruptedException {
+    public void blockUntilShutdown() throws InterruptedException {
         if (server != null){
             server.awaitTermination();
         }
@@ -58,7 +58,7 @@ public class SayHello_Server_0 {
     public  static  void main(String[] args) throws IOException, InterruptedException {
 
         final SayHello_Server_0 server = new SayHello_Server_0();
-        server.start();
+        server.start(50051);
         server.blockUntilShutdown();
     }
 
@@ -68,11 +68,11 @@ public class SayHello_Server_0 {
         //接受參數，然後回傳
         @Override
         public void sayHello(HelloRequest req,StreamObserver<HelloReply> responseObserver){
-            System.out.println("conneting");
+//            System.out.println("conneting");
             HelloReply reply = HelloReply.newBuilder().setMessage(("Hello "+req.getName())).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
-            System.out.println("Message from gRPC-Client:" + req.getName());
+//            System.out.println("Message from gRPC-Client:" + req.getName());
         }
     }
 }

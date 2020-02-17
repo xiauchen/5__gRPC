@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -94,7 +95,7 @@ public class HelloWorldClientAndServerStream_Server_4 {
     public  static  void main(String[] args) throws IOException, InterruptedException, NotRegisteredException {
 
         final HelloWorldClientAndServerStream_Server_4 server = new HelloWorldClientAndServerStream_Server_4();
-        server.start(49994);
+        server.start(49995);
         server.blockUntilShutdown();
     }
 
@@ -106,7 +107,8 @@ public class HelloWorldClientAndServerStream_Server_4 {
         //接受參數，然後回傳
         @Override
         public StreamObserver<HelloRequest> helloWorldClientAndServerStream(StreamObserver<HelloReply> responseObserver){
-            System.out.println("helloWorldClientAndServerStream");
+//            logger.log(Level.WARNING, "RPC failed: {0}", "helloWorldClientAndServerStream"+port);
+//            System.out.println("helloWorldClientAndServerStream"+port);
             return new StreamObserver<HelloRequest>(){
                 private HelloReply.Builder builder=HelloReply.newBuilder();
                 @Override

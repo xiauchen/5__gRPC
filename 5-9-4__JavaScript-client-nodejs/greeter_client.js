@@ -30,10 +30,10 @@ var packageDefinition = protoLoader.loadSync(
     });
     //routeguide 要改
 var helloworld = grpc.loadPackageDefinition(packageDefinition).helloworld;
-var client = new helloworld.Greeter('localhost:50054',
+var client = new helloworld.Greeter('localhost:49993',
                                        grpc.credentials.createInsecure());
 function runRouteChat(callback) {
-	// var client = new services.GreeterClient('localhost:50054',
+	// var client = new services.GreeterClient('localhost:49993',
   //                                         grpc.credentials.createInsecure());
   // var request = new messages.HelloRequest();
   // var user;

@@ -1,5 +1,6 @@
 package com.example.__gRPCClient.grpc.client;
 
+import com.example.__gRPCClient.Application;
 import com.example.helloworld.GreeterGrpc;
 import grpc.health.v1.HealthOuterClass.HealthCheckResponse;
 import grpc.health.v1.HealthOuterClass.HealthCheckRequest;
@@ -33,7 +34,7 @@ public class HelloWorldClientAndServerStream_Client_4 {
     private final GreeterGrpc.GreeterStub asyncStub;
     private final GreeterGrpc.GreeterBlockingStub blockingStub_h;
     private final HealthGrpc.HealthBlockingStub blockingStub;
-    private static final Logger logger = Logger.getLogger(HelloWorldClientAndServerStream_Client_4.class.getName());
+    private static final Logger logger = Logger.getLogger(Application.class.getName());
     private String finalString;
     private int test1 = 0;
     /**
@@ -60,8 +61,8 @@ public class HelloWorldClientAndServerStream_Client_4 {
 
         channel = ManagedChannelBuilder
                 .forTarget(consulAddr)
-                .defaultLoadBalancingPolicy("pick_first")
-//                .defaultLoadBalancingPolicy("round_robin")
+//                .defaultLoadBalancingPolicy("pick_first")
+                .defaultLoadBalancingPolicy("round_robin")
                 .nameResolverFactory(new LocalNameResolverProvider(consulHost,listConsulPort))
 //                .nameResolverFactory(new ConsulNameResolver.ConsulNameResolverProvider(serviceName, pauseInSeconds, ignoreConsul, hostPorts))
                 .usePlaintext(true)
@@ -99,6 +100,7 @@ public class HelloWorldClientAndServerStream_Client_4 {
         StreamObserver<HelloReply> responseObserver = new StreamObserver<HelloReply>() {
             @Override
             public void onNext(HelloReply reply) {
+//                System.out.println(reply.getMessage());
 //                logger.log(Level.WARNING, "bidirectional stream--"+reply.getMessage());
                 finalString = reply.getMessage() + new Date() + test1;
                 test1++;
@@ -121,11 +123,11 @@ public class HelloWorldClientAndServerStream_Client_4 {
         };
         try{
             StreamObserver<HelloRequest> response = asyncStub.helloWorldClientAndServerStream(responseObserver);
-            for (int i = 0 ;i<10000;i++)
+            for (int i = 0 ;i<100000;i++)
                 response.onNext(HelloRequest.newBuilder().setName("world" + "1" + i).build());
             response.onCompleted();
-//            Thread.sleep(1200);
-        } catch (StatusRuntimeException e)
+            Thread.sleep(1200);
+        } catch (StatusRuntimeException | InterruptedException e)
         {
             logger.log(Level.WARNING, "RPC failed: {0}", e.toString());
             return;
@@ -138,7 +140,7 @@ public class HelloWorldClientAndServerStream_Client_4 {
         HelloReply response = null;
         try{
             long time1 = System.currentTimeMillis();
-            for(int i =0 ;i<10000;i++)
+            for(int i =0 ;i<10;i++)
                 response = blockingStub_h.helloWorld(request);
             long time2 = System.currentTimeMillis();
             System.out.println((time2-time1)/1000.0 + "秒");
@@ -151,7 +153,7 @@ public class HelloWorldClientAndServerStream_Client_4 {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        HelloWorldClientAndServerStream_Client_4 client = new HelloWorldClientAndServerStream_Client_4("127.0.0.1",50054);
+        HelloWorldClientAndServerStream_Client_4 client = new HelloWorldClientAndServerStream_Client_4("127.0.0.1",49992);
         try{
             String user = "world";
             if (args.length > 0){

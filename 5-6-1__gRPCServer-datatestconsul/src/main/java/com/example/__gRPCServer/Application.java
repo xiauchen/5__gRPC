@@ -1,29 +1,33 @@
 package com.example.__gRPCServer;
 
 import com.example.__gRPCServer.grpc.server.HelloWorldClientAndServerStream_Server_4;
-import com.google.protobuf.InvalidProtocolBufferException;
 import com.orbitz.consul.NotRegisteredException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@Controller
+@RestController
 public class Application {
 	private static HelloWorldClientAndServerStream_Server_4 server1;
+	private static HelloWorldClientAndServerStream_Server_4 server2;
+	private static HelloWorldClientAndServerStream_Server_4 server3;
 	public static void main(String[] args) throws IOException, InterruptedException, NotRegisteredException {
 		SpringApplication.run(Application.class, args);
 		server1 = new HelloWorldClientAndServerStream_Server_4();
-		final HelloWorldClientAndServerStream_Server_4 server2 = new HelloWorldClientAndServerStream_Server_4();
+//		server2 = new HelloWorldClientAndServerStream_Server_4();
+//		server3 = new HelloWorldClientAndServerStream_Server_4();
 		server1.start(49993);
-		server2.start(49994);
+//		server2.start(49994);
+//		server3.start(49995);
 		server1.blockUntilShutdown();
-		server2.blockUntilShutdown();
+//		server2.blockUntilShutdown();
+//		server3.blockUntilShutdown();
 
 		//____________________________________________________________//
 //		System.out.println("===== 构建一个GPS模型开始 =====");
@@ -62,6 +66,16 @@ public class Application {
 	public String shutdownA() throws InterruptedException {
 		server1.stop();
 		return "shutdownA";
+	}
+	@RequestMapping("/shutdownB")
+	public String shutdownB() throws InterruptedException {
+		server2.stop();
+		return "shutdownB";
+	}
+	@RequestMapping("/shutdownC")
+	public String shutdownC() throws InterruptedException {
+		server3.stop();
+		return "shutdownC";
 	}
 
 }

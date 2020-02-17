@@ -74,7 +74,8 @@ public class HelloWorldClientAndServerStream_Client_4 {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        HelloWorldClientAndServerStream_Client_4 client = new HelloWorldClientAndServerStream_Client_4("127.0.0.1",50054);
+//        HelloWorldClientAndServerStream_Client_4 client = new HelloWorldClientAndServerStream_Client_4("127.0.0.1",50054);
+        HelloWorldClientAndServerStream_Client_4 client = new HelloWorldClientAndServerStream_Client_4("127.0.0.1",49993);
         try{
             String user = "world";
             if (args.length > 0){
