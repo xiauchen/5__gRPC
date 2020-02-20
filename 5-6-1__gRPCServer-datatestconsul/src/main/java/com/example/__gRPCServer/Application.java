@@ -1,5 +1,6 @@
 package com.example.__gRPCServer;
 
+import ch.qos.logback.core.BasicStatusManager;
 import com.example.__gRPCServer.grpc.server.HelloWorldClientAndServerStream_Server_4;
 import com.orbitz.consul.NotRegisteredException;
 import org.springframework.boot.SpringApplication;
@@ -9,23 +10,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 @EnableDiscoveryClient
 @RestController
 public class Application {
+
+	static List<HelloWorldClientAndServerStream_Server_4> list1 = new ArrayList<HelloWorldClientAndServerStream_Server_4>();
 	private static HelloWorldClientAndServerStream_Server_4 server1;
 	private static HelloWorldClientAndServerStream_Server_4 server2;
 	private static HelloWorldClientAndServerStream_Server_4 server3;
 	public static void main(String[] args) throws IOException, InterruptedException, NotRegisteredException {
 		SpringApplication.run(Application.class, args);
+
 		server1 = new HelloWorldClientAndServerStream_Server_4();
-//		server2 = new HelloWorldClientAndServerStream_Server_4();
-//		server3 = new HelloWorldClientAndServerStream_Server_4();
+		server2 = new HelloWorldClientAndServerStream_Server_4();
+		server3 = new HelloWorldClientAndServerStream_Server_4();
 		server1.start(49993);
-//		server2.start(49994);
-//		server3.start(49995);
-		server1.blockUntilShutdown();
+		server2.start(49994);
+		server3.start(49995);
+		list1.add(server1);
+		list1.add(server2);
+		list1.add(server3);
+		list1.get(1).blockUntilShutdown();
+		list1.get(2).blockUntilShutdown();
+		list1.get(3).blockUntilShutdown();
 //		server2.blockUntilShutdown();
 //		server3.blockUntilShutdown();
 

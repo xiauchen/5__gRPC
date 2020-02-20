@@ -36,6 +36,7 @@ public class Application {
 
 	@RequestMapping("/get")
 	public String get(Model model) {
+		System.out.println("asd");
 		long time1 = System.currentTimeMillis();
 		RestTemplate restTemplate = new RestTemplate();
 		for(int i=0;i<100000;i++)
